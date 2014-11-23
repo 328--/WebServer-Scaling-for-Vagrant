@@ -1,0 +1,13 @@
+- name: nginx install
+  apt: name={{ item }} state=installed
+  with_items: nginx_list
+
+- name: cgi fix
+  replace: dest=/etc/php5/fpm/php.ini regexp=';cgi.fix_pathinfo=1' replace='cgi.fix_pathinfo=0' backup=yes
+
+- name: sites-available replace 
+  copy: src=default dest=/etc/nginx/sites-available/default owner=root group=root mode=644 backup=yes
+
+- name: php5-fpm,nginx restart
+  action: service name={{ item }} state=started
+  with_items: restart_item

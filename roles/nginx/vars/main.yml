@@ -1,0 +1,10 @@
+nginx_list:
+  - nginx
+  - php5-fpm
+  - php5-mysql
+  - php5-gd
+  - libssh2-php  
+
+restart_item:
+  - php5-fpm
+  - nginx

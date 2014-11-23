@@ -1,0 +1,40 @@
+- name: mysql install
+  apt: name={{ item }} state=installed
+  with_items: mysql_install_list
+
+- name: mysql runnning and enabled
+  service: name=mysql state=running enabled=yes
+
+
+- name: Create database
+  mysql_db: db={{ dbname }} state=present encoding=utf8
+
+
+- name: Create database user
+  mysql_user: >
+    name={{ dbuser }}
+    password={{ dbpassword }}
+    priv={{ dbname }}.*:ALL
+    state=present
+
+- name: wordpress download
+  get_url: url="http://wordpress.org/latest.tar.gz" dest=/tmp
+
+
+- name: un compress tar file
+  command: chdir=/tmp tar xvzf latest.tar.gz 
+
+- name: copy wordpress
+  command: /tmp/wordpress dest=/usr/share/nginx/ owner=www-data group=www-data directory_mode
+
+
+
+#- name: cgi fix
+#  replace: dest=/etc/php5/fpm/php.ini regexp=';cgi.fix_pathinfo=1' replace='cgi.fix_pathinfo=0' backup=yes
+#
+#- name: sites-available replace 
+#  copy: src=default dest=/etc/nginx/sites-available/default owner=root group=root mode=644 backup=yes
+#
+#- name: php5-fpm,nginx restart
+#  action: service name={{ item }} state=started
+#  with_items: restart_item

@@ -1,0 +1,8 @@
+mysql_install_list:
+  - mysql-server
+  - python-mysqldb
+
+dbname: wordpress
+dbuser: wordpress  
+dbpassword: password
+root_db_password: password
