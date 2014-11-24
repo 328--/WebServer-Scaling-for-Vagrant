@@ -18,23 +18,26 @@
     state=present
 
 - name: wordpress download
-  get_url: url="http://wordpress.org/latest.tar.gz" dest=/tmp
+  get_url: url="http://wordpress.org/latest.tar.gz" dest=/usr/share/nginx/html/
 
 
 - name: un compress tar file
-  command: chdir=/tmp tar xvzf latest.tar.gz 
+  command: chdir=/usr/share/nginx/html/ tar xvzf latest.tar.gz 
 
-- name: copy wordpress
-  command: /tmp/wordpress dest=/usr/share/nginx/ owner=www-data group=www-data directory_mode
+- name: make uploads contents directory
+  file: path=/usr/share/nginx/html/wordpress/wp-content/uploads state=directory 
 
+- name: change owner wordpress
+  file: path=/usr/share/nginx/html/wordpress/ state=directory recurse=yes owner=www-data group=www-data 
 
+- name: copy config file   
+  shell: creates=/usr/share/nginx/html/wordpress/wp-config.php cp /usr/share/nginx/html/wordpress/wp-config-sample.php /usr/share/nginx/html/wordpress/wp-config.php 
 
-#- name: cgi fix
-#  replace: dest=/etc/php5/fpm/php.ini regexp=';cgi.fix_pathinfo=1' replace='cgi.fix_pathinfo=0' backup=yes
-#
-#- name: sites-available replace 
-#  copy: src=default dest=/etc/nginx/sites-available/default owner=root group=root mode=644 backup=yes
-#
-#- name: php5-fpm,nginx restart
-#  action: service name={{ item }} state=started
-#  with_items: restart_item
+- name: set DB_NAME
+  replace: dest=/usr/share/nginx/html/wordpress/wp-config.php regexp='database_name_here' replace='{{ dbname }}' backup=yes
+
+- name: set DB_USER
+  replace: dest=/usr/share/nginx/html/wordpress/wp-config.php regexp='username_here' replace='{{ dbuser }}' backup=yes
+
+- name: set DB_PASSWORD
+  replace: dest=/usr/share/nginx/html/wordpress/wp-config.php regexp='password_here' replace='{{ dbpassword }}' backup=yes

@@ -3,6 +3,6 @@ mysql_install_list:
   - python-mysqldb
 
 dbname: wordpress
-dbuser: wordpress  
+dbuser: wordpressuser
 dbpassword: password
 root_db_password: password

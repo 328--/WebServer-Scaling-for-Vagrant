@@ -9,5 +9,5 @@
   copy: src=default dest=/etc/nginx/sites-available/default owner=root group=root mode=644 backup=yes
 
 - name: php5-fpm,nginx restart
-  action: service name={{ item }} state=started
+  action: service name={{ item }} state=restarted
   with_items: restart_item
