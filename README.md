@@ -15,5 +15,6 @@ ansible-playbook -i hosts site.yml -u vagrant --ask-pass
 - WebServer : Nginx
 
 
+
 # 今後
 - WebServer,DBの冗長化を予定
