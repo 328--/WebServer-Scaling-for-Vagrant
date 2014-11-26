@@ -1,0 +1,27 @@
+- name: ipvsadm install
+  apt: name=ipvsadm state=installed
+
+- name: ipvsadm settings1
+  replace: dest=/etc/default/ipvsadm regexp='AUTO="false"' replace='AUTO="true"' backup=yes
+
+- name: ipvsadm settings2
+  replace: dest=/etc/default/ipvsadm regexp='DAEMON="none"' replace='DAEMON="master"' backup=yes
+
+- name: ipvsadm settings3
+  replace: dest=/etc/default/ipvsadm regexp='IFACE="eth0"' replace='IFACE="eth1"' backup=yes
+
+- name: virtual ip add
+  shell: ip addr add {{virtualIP}} label {{virtualIPNIC}}{{colon}}vip dev {{virtualIPNIC}} 
+
+- name: ipvsadm rule file clear
+  file: path=/etc/ipvsadm.rules state=absent
+  
+- name: ipvsadm rule file create
+  shell: touch /etc/ipvsadm.rules
+
+- name: ipvsadm.rules file setting
+  lineinfile: dest=/etc/ipvsadm.rules create=yes state=present line="{{ item }}"
+  with_items: ipvsadm_command_list
+  
+- name: ipvsadm restart
+  action: service name=ipvsadm state=restarted

@@ -2,3 +2,4 @@
 - include: common.yml
 - include: nginx.yml
 - include: wordpress.yml
+- include: loadbalancer.yml

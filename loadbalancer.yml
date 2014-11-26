@@ -1,0 +1,6 @@
+---
+- hosts: loadbalancer
+  sudo: yes
+  user: vagrant 
+  roles:
+    - loadbalancer

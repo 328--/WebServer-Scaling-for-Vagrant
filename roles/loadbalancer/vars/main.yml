@@ -1,0 +1,4 @@
+ipvsadm_command_list:
+  -  -A -t {{virtualIP}}{{colon}}80 -s rr
+  -  -a -t {{virtualIP}}{{colon}}80 -r {{WebPrimary}}{{colon}}80 -m -w 1
+  -  -a -t {{virtualIP}}{{colon}}80 -r {{WebSecondary}}{{colon}}80 -m -w 1

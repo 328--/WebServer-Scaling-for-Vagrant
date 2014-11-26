@@ -1,2 +1,9 @@
 - name: updates a server
   apt: update_cache=yes
+
+- name: ipv4 packet forwarding settings
+  replace: dest=/etc/sysctl.conf regexp='#net.ipv4.ip_forward=1' replace='net.ipv4.ip_forward=1' backup=yes
+
+- name: sysctl reload   
+  shell: sysctl -p
+  

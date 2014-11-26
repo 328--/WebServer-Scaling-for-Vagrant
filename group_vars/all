@@ -1,0 +1,6 @@
+colon: ':'
+virtualIP: 192.168.33.100
+virtualIPNIC: eth1
+WebPrimary: 192.168.33.10
+WebSecondary: 192.168.33.11
+
