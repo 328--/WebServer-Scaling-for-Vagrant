@@ -12,7 +12,9 @@ ansible-playbook -i hosts site.yml -u vagrant --ask-pass
 ```
 
 # システム構成等
-- WebServer : Nginx
+
+![system_consitution](./images/system_consitution.png)
+
 
 
 
