@@ -1,3 +1,6 @@
+- name: resolv.conf write
+  lineinfile: dest=/etc/resolv.conf create=yes state=present line="nameserver {{ name_server_address }}"
+
 - name: updates a server
   apt: update_cache=yes
 

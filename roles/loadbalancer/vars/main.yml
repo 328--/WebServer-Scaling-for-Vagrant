@@ -1,3 +1,7 @@
+loadbalancer_install_list:
+  - ipvsadm
+  - keepalived
+
 ipvsadm_command_list:
   -  -A -t {{virtualIP}}{{colon}}80 -s rr
   -  -a -t {{virtualIP}}{{colon}}80 -r {{WebPrimary}}{{colon}}80 -m -w 1

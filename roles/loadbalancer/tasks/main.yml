@@ -1,5 +1,6 @@
 - name: ipvsadm install
-  apt: name=ipvsadm state=installed
+  apt: name={{ item }} state=installed
+  with_items: loadbalancer_install_list
 
 - name: ipvsadm settings1
   replace: dest=/etc/default/ipvsadm regexp='AUTO="false"' replace='AUTO="true"' backup=yes
@@ -23,5 +24,11 @@
   lineinfile: dest=/etc/ipvsadm.rules create=yes state=present line="{{ item }}"
   with_items: ipvsadm_command_list
   
+- name: keepalived config setting 
+  template: src=keepalived.conf dest=/etc/keepalived/keepalived.conf owner=root group=root mode=644 backup=yes
+
 - name: ipvsadm restart
   action: service name=ipvsadm state=restarted
+
+- name: ipvsadm restart
+  action: service name=keepalived state=restarted
